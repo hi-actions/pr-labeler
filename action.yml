@@ -1,0 +1,12 @@
+---
+# action.yml
+name: 'Pull Request Labeler'
+description: 'Periodically label pull requests based on changed files'
+author: Inhere
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  #image: 'docker://quay.io/paulfantom/periodic-labeler:latest'
+branding:
+  icon: "tag"
+  color: "green"
