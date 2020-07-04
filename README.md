@@ -59,8 +59,15 @@ jobs:
 
 _Note: This grants access to the `GITHUB_TOKEN` so the action can make calls to GitHub's rest API_
 
-## Refer
+## Refer Projects
 
-- https://docs.github.com/en/actions
 - https://github.com/actions/labeler
 - https://github.com/paulfantom/periodic-labeler
+
+## Refer Documents
+
+- https://docs.github.com/en/actions
+- https://developer.github.com/v3/pulls/#list-pull-requests-files
+- https://docs.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables
+- https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
+- https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request

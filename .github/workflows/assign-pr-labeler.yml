@@ -1,0 +1,15 @@
+name: Pull Request Labeler
+on: [pull_request]
+
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Assign PR Labeler
+        uses: inherlab/pr-labeler@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          LABEL_CONFIG_FILE: .github/pr-labeler.yml

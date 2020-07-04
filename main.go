@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/gobwas/glob"
 	"github.com/google/go-github/v32/github"
+	"github.com/gookit/goutil/dump"
+	"github.com/gookit/goutil/mathutil"
 	"github.com/inherelab/pr-labeler/slog"
-	"golang.org/x/oauth2"
 	"gopkg.in/yaml.v2"
 )
 
@@ -87,25 +89,23 @@ func main() {
 	repoSlug := os.Getenv("GITHUB_REPOSITORY")
 	ghToken = os.Getenv("GITHUB_TOKEN")
 
-	confPath, exists := os.LookupEnv("LABEL_MAPPINGS_FILE")
+	// GITHUB_REF "refs/pull/:prNumber/merge"
+	ghRefer := os.Getenv("GITHUB_REF")
+	// ghRefer := "refs/pull/34/merge"
+	prNumber := getPrNumber(ghRefer)
+
+	confPath, exists := os.LookupEnv("LABEL_CONFIG_FILE")
 	if !exists {
 		confPath = ".github/labeler.yml"
 	}
 
-	s := strings.Split(repoSlug, "/")
-	owner = s[0]
-	repo = s[1]
+	ss := strings.Split(repoSlug, "/")
+	gha := NewGithub(ss[0], ss[1], ghToken)
 
-	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		// TODO: access token should be passed as CLI parameter
-		&oauth2.Token{AccessToken: ghToken},
-	)
-
-	tc := oauth2.NewClient(ctx, ts)
-	client := github.NewClient(tc)
-
-	content, _, _, err := client.Repositories.GetContents(context.Background(), owner, repo, confPath, nil)
+	// - fetch config file contents
+	// GITHUB_SHA
+	fetchContentOpts := &github.RepositoryContentGetOptions{Ref: os.Getenv("GITHUB_SHA")}
+	content, _, _, err := gha.Client().Repositories.GetContents(context.Background(), owner, repo, confPath, fetchContentOpts)
 	if err != nil {
 		slog.Fatal(err)
 	}
@@ -120,36 +120,45 @@ func main() {
 		slog.Fatal(err)
 	}
 
-	opt := &github.PullRequestListOptions{State: "open", Sort: "updated"}
-	// get all pages of results
-	for {
-		pulls, resp, err := client.PullRequests.List(context.Background(), owner, repo, opt)
+	// opt := &github.PullRequestListOptions{State: "open", Sort: "updated"}
+	pull, _, err := gha.GetPullRequest(prNumber)
+	if err != nil {
+		slog.Fatal(err)
+	}
+
+	// get all changed files of PR
+	files, _, err := gha.ListPullRequestFiles(prNumber, nil)
+	if err != nil {
+		slog.Fatal(err)
+	}
+
+	expectedLabels := matchFiles(labelMatchers, files)
+	if !containsLabels(expectedLabels, getCurrentLabels(pull)) {
+		slog.Infof("PR %s/%s#%d should have following labels: %v", owner, repo, prNumber, expectedLabels)
+
+		_, _, err = gha.AddLabelsToIssue(prNumber, expectedLabels)
 		if err != nil {
-			slog.Fatal(err)
+			slog.Error(err)
 		}
-
-		for _, pull := range pulls {
-			files, _, err := client.PullRequests.ListFiles(context.Background(), owner, repo, pull.GetNumber(), nil)
-			if err != nil {
-				slog.Error(err)
-			}
-
-			expectedLabels := matchFiles(labelMatchers, files)
-			if !containsLabels(expectedLabels, getCurrentLabels(pull)) {
-				slog.Infof("PR %s/%s#%d should have following labels: %v", owner, repo, pull.GetNumber(), expectedLabels)
-
-				_, _, err = client.Issues.AddLabelsToIssue(context.Background(), owner, repo, pull.GetNumber(), expectedLabels)
-				if err != nil {
-					slog.Error(err)
-				}
-			}
-		}
-
-		if resp.NextPage == 0 {
-			break
-		}
-
-		opt.Page = resp.NextPage
 	}
 }
 
+//
+// match files
+//
+
+//
+// helper func
+//
+
+func getPrNumber(ghRefer string) int {
+	// "refs/pull/:prNumber/merge"
+	rg := regexp.MustCompile(`^refs/pull/(\d+)/merge`)
+	ns := rg.FindStringSubmatch(ghRefer)
+	dump.P(ns)
+	if len(ns) < 2 {
+		return 0
+	}
+
+	return mathutil.MustInt(ns[1])
+}
