@@ -84,28 +84,38 @@ func buildLabelMatchers(from string) (map[string][]glob.Glob, error) {
 }
 
 func main() {
-	var owner, repo, ghToken string
+	ghToken := os.Getenv("GITHUB_TOKEN")
+	if ghToken == "" {
+		slog.Fatal("please set env: GITHUB_TOKEN")
+	}
 
-	repoSlug := os.Getenv("GITHUB_REPOSITORY")
-	ghToken = os.Getenv("GITHUB_TOKEN")
-
+	// Inner ENV see: https://docs.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables
 	// GITHUB_REF "refs/pull/:prNumber/merge"
 	ghRefer := os.Getenv("GITHUB_REF")
 	// ghRefer := "refs/pull/34/merge"
 	prNumber := getPrNumber(ghRefer)
+	if prNumber == 0 {
+		slog.Fatalf("parse PR number failed, GITHUB_REF: %s", ghRefer)
+	}
 
-	confPath, exists := os.LookupEnv("LABEL_CONFIG_FILE")
-	if !exists {
+	confPath := os.Getenv("LABEL_CONFIG_FILE")
+	if confPath == "" {
 		confPath = ".github/labeler.yml"
 	}
 
-	ss := strings.Split(repoSlug, "/")
-	gha := NewGithub(ss[0], ss[1], ghToken)
+	slog.Infof("use label config: %s", confPath)
+
+	repoSlug := os.Getenv("GITHUB_REPOSITORY")
+	nameNodes := strings.Split(repoSlug, "/")
+	owner, repo := nameNodes[0], nameNodes[1]
+
+	// create client
+	gha := NewGithub(owner, repo, ghToken)
 
 	// - fetch config file contents
 	// GITHUB_SHA
 	fetchContentOpts := &github.RepositoryContentGetOptions{Ref: os.Getenv("GITHUB_SHA")}
-	content, _, _, err := gha.Client().Repositories.GetContents(context.Background(), owner, repo, confPath, fetchContentOpts)
+	content, _, _, err := gha.Repositories().GetContents(context.Background(), owner, repo, confPath, fetchContentOpts)
 	if err != nil {
 		slog.Fatal(err)
 	}

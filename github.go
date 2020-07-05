@@ -45,6 +45,11 @@ func (gha *GithubApi) ListPullRequestFiles(prNumber int, options *github.ListOpt
 	return gha.client.PullRequests.ListFiles(context.Background(), gha.owner, gha.repo, prNumber, options)
 }
 
+// Repositories service get
+func (gha *GithubApi) Repositories() *github.RepositoriesService {
+	return gha.client.Repositories
+}
+
 // Repo name
 func (gha *GithubApi) Repo() string {
 	return gha.repo
