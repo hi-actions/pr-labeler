@@ -8,7 +8,6 @@ import (
 
 	"github.com/gobwas/glob"
 	"github.com/google/go-github/v32/github"
-	"github.com/gookit/goutil/dump"
 	"github.com/gookit/goutil/mathutil"
 	"github.com/inherelab/pr-labeler/slog"
 	"gopkg.in/yaml.v2"
@@ -39,27 +38,6 @@ func containsLabels(expected []string, current []string) bool {
 		}
 	}
 	return true
-}
-
-// Get files and labels matchers, output labels
-func matchFiles(labelsMatch map[string][]glob.Glob, files []*github.CommitFile) []string {
-	var labelSet []string
-	set := make(map[string]bool)
-	for _, file := range files {
-		for label, matchers := range labelsMatch {
-			if set[label] {
-				continue
-			}
-			for _, m := range matchers {
-				if m.Match(file.GetFilename()) {
-					set[label] = true
-					labelSet = append(labelSet, label)
-					break
-				}
-			}
-		}
-	}
-	return labelSet
 }
 
 func buildLabelMatchers(from string) (map[string][]glob.Glob, error) {
@@ -150,11 +128,38 @@ func main() {
 		if err != nil {
 			slog.Error(err)
 		}
+	} else {
+		slog.Infof("not add any labels")
 	}
 }
 
 //
 // match files
+//
+
+// Get files and labels matchers, output labels
+func matchFiles(labelsMatch map[string][]glob.Glob, files []*github.CommitFile) []string {
+	var labelSet []string
+	set := make(map[string]bool)
+	for _, file := range files {
+		for label, matchers := range labelsMatch {
+			if set[label] {
+				continue
+			}
+			for _, m := range matchers {
+				if m.Match(file.GetFilename()) {
+					set[label] = true
+					labelSet = append(labelSet, label)
+					break
+				}
+			}
+		}
+	}
+	return labelSet
+}
+
+//
+// match labels
 //
 
 //
@@ -165,7 +170,7 @@ func getPrNumber(ghRefer string) int {
 	// "refs/pull/:prNumber/merge"
 	rg := regexp.MustCompile(`^refs/pull/(\d+)/merge`)
 	ns := rg.FindStringSubmatch(ghRefer)
-	dump.P(ns)
+
 	if len(ns) < 2 {
 		return 0
 	}
