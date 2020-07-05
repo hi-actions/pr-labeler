@@ -68,7 +68,10 @@ func main() {
 	}
 
 	// Inner ENV see: https://docs.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables
-	// GITHUB_REF "refs/pull/:prNumber/merge"
+	// GITHUB_REF
+	// - on PR: "refs/pull/:prNumber/merge"
+	// - on push: "refs/heads/master"
+	// - on push tag: "refs/tags/v0.0.1"
 	ghRefer := os.Getenv("GITHUB_REF")
 	// ghRefer := "refs/pull/34/merge"
 	prNumber := getPrNumber(ghRefer)
@@ -76,7 +79,7 @@ func main() {
 		slog.Fatalf("parse PR number failed, GITHUB_REF: %s", ghRefer)
 	}
 
-	confPath := os.Getenv("LABEL_CONFIG_FILE")
+	confPath := os.Getenv("LABEL_CONFIG")
 	if confPath == "" {
 		confPath = ".github/labeler.yml"
 	}

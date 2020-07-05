@@ -40,7 +40,7 @@ test:
 
 ### Create Workflow
 
-Create a workflow (eg: `.github/workflows/labeler.yml` see [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file)) to utilize the labeler action with content:
+Create a workflow (eg: `.github/workflows/pr-labeler.yml` see [Creating a Workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file)) to utilize the labeler action with content:
 
 ```yml
 name: "Pull Request Labeler"
@@ -53,8 +53,7 @@ jobs:
     - uses: inherelab/pr-labeler@master
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPO: ${{ github.repository }}
-          LABEL_CONFIG: .github/labeler.yml
+          LABEL_CONFIG: .github/labeler.yml # this is default
 ```
 
 _Note: This grants access to the `GITHUB_TOKEN` so the action can make calls to GitHub's rest API_
