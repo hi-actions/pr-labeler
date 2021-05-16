@@ -9,7 +9,7 @@ import (
 	"github.com/gobwas/glob"
 	"github.com/google/go-github/v32/github"
 	"github.com/gookit/goutil/mathutil"
-	"github.com/inherelab/pr-labeler/slog"
+	"github.com/gookit/slog"
 	"gopkg.in/yaml.v2"
 )
 
