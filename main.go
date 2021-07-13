@@ -61,6 +61,7 @@ func buildLabelMatchers(from string) (map[string][]glob.Glob, error) {
 	return matchers, nil
 }
 
+// version 1
 func main() {
 	ghToken := os.Getenv("GITHUB_TOKEN")
 	if ghToken == "" {
