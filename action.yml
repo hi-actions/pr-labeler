@@ -6,7 +6,7 @@ author: Inhere
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  #image: 'docker://quay.io/paulfantom/periodic-labeler:latest'
+  # image: 'docker://ghcr.io/inherelab/pr-labeler:latest'
 branding:
   icon: "tag"
   color: "green"
