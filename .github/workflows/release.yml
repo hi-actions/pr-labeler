@@ -6,7 +6,7 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: pr-labeler
+  IMAGE_NAME: pr-label-assign
 
 jobs:
   release:

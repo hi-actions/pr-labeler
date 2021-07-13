@@ -6,6 +6,9 @@ on:
       - '**.go'
       - '**.yml'
 
+env:
+  IMAGE_NAME: pr-label-assign
+
 jobs:
 
   # https://docs.github.com/cn/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions
@@ -31,7 +34,7 @@ jobs:
           # ${{ github.repository_owner }} = inherelab
           # ${{ github.repository }} = inherelab/pr-labeler
           tags: |
-            docker.pkg.github.com/${{ github.repository }}:${{ github.sha }}
-            docker.pkg.github.com/${{ github.repository }}:latest
+            docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME:${{ github.sha }}
+            docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME:latest
 
 #            docker.pkg.github.com/${{ github.repository }}:${{ github.ref }}
