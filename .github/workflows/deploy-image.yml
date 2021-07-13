@@ -30,4 +30,5 @@ jobs:
           push: true
           tags: |
             docker.pkg.github.com/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
-            docker.pkg.github.com/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref }}
+#            docker.pkg.github.com/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref }}
+            docker.pkg.github.com/${{ github.repository_owner }}/${{ github.repository }}:latest

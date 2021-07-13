@@ -49,6 +49,7 @@ jobs:
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
+  # https://docs.github.com/cn/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions
   push:
     runs-on: ubuntu-latest
     permissions:
