@@ -28,7 +28,9 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
+          # ${{ github.repository_owner }} = inherelab
+          # ${{ github.repository }} = inherelab/pr-labeler
           tags: |
-            docker.pkg.github.com/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
-#            docker.pkg.github.com/${{ github.repository_owner }}/${{ github.repository }}:${{ github.ref }}
-            docker.pkg.github.com/${{ github.repository_owner }}/${{ github.repository }}:latest
+            docker.pkg.github.com/${{ github.repository }}:${{ github.sha }}
+#            docker.pkg.github.com/${{ github.repository }}:${{ github.ref }}
+            docker.pkg.github.com/${{ github.repository }}:latest
