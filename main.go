@@ -10,7 +10,7 @@ import (
 	"github.com/google/go-github/v32/github"
 	"github.com/gookit/goutil/mathutil"
 	"github.com/gookit/slog"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 func contains(slice []string, item string) bool {
@@ -149,6 +149,7 @@ func matchFiles(labelsMatch map[string][]glob.Glob, files []*github.CommitFile) 
 			if set[label] {
 				continue
 			}
+
 			for _, m := range matchers {
 				if m.Match(file.GetFilename()) {
 					set[label] = true

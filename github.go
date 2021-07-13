@@ -10,13 +10,15 @@ import (
 type GithubApi struct {
 	// owner and repo name
 	owner, repo string
+
 	client *github.Client
 }
 
+// NewGithub create
 func NewGithub(owner, repo, token string) *GithubApi {
 	gha := &GithubApi{
-		owner:  owner,
-		repo:   repo,
+		owner: owner,
+		repo:  repo,
 	}
 
 	ctx := context.Background()
@@ -64,4 +66,3 @@ func (gha *GithubApi) Owner() string {
 func (gha *GithubApi) Client() *github.Client {
 	return gha.client
 }
-
