@@ -32,5 +32,6 @@ jobs:
           # ${{ github.repository }} = inherelab/pr-labeler
           tags: |
             docker.pkg.github.com/${{ github.repository }}:${{ github.sha }}
-#            docker.pkg.github.com/${{ github.repository }}:${{ github.ref }}
             docker.pkg.github.com/${{ github.repository }}:latest
+
+#            docker.pkg.github.com/${{ github.repository }}:${{ github.ref }}
