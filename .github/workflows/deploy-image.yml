@@ -33,7 +33,8 @@ jobs:
           push: true
           # ${{ github.repository_owner }} = inherelab
           # ${{ github.repository }} = inherelab/pr-labeler
-          tags: |
-            docker.pkg.github.com/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          # docker.pkg.github.com/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: | 
             docker.pkg.github.com/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
 
