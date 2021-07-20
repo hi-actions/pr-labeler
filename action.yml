@@ -5,8 +5,9 @@ description: 'Periodically label pull requests based on changed files'
 author: Inhere
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  # image: 'Dockerfile'
   # image: 'docker://ghcr.io/inherelab/pr-labeler:latest'
+  image: 'docker://docker.pkg.github.com/inherelab/pr-labeler/pr-label-assign:latest'
 branding:
   icon: "tag"
   color: "green"
