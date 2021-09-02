@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - name: Assign PR Labeler
-        uses: inherlab/pr-labeler@master
+        uses: hi-actions/pr-labeler@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}

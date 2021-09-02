@@ -6,9 +6,9 @@ author: Inhere
 runs:
   using: 'docker'
   # image: 'Dockerfile'
-  # image: 'docker://ghcr.io/inherelab/pr-labeler:latest'
-  # image: 'docker://docker.pkg.github.com/inherelab/pr-labeler/pr-label-assign:latest'
-  image: 'docker://ghcr.io/inherelab/pr-labeler/pr-label-assign:latest'
+  # image: 'docker://ghcr.io/hi-actions/pr-labeler:latest'
+  # image: 'docker://docker.pkg.github.com/hi-actions/pr-labeler/pr-label-assign:latest'
+  image: 'docker://ghcr.io/hi-actions/pr-labeler:main'
 branding:
   icon: "tag"
   color: "green"

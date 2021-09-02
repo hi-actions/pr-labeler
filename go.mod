@@ -1,4 +1,4 @@
-module github.com/inherelab/pr-labeler
+module github.com/hi-actions/pr-labeler
 
 go 1.13
 

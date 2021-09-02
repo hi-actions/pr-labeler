@@ -50,7 +50,7 @@ jobs:
   labels:
     runs-on: ubuntu-latest
     steps:
-    - uses: inherelab/pr-labeler@master
+    - uses: hi-actions/pr-labeler@main
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LABEL_CONFIG: .github/labeler.yml # this is default
