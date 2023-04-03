@@ -6,7 +6,7 @@ require (
 	github.com/gobwas/glob v0.2.3
 	github.com/google/go-github/v32 v32.1.0
 	github.com/google/go-querystring v1.1.0 // indirect
-	github.com/gookit/goutil v0.6.7
+	github.com/gookit/goutil v0.6.8
 	github.com/gookit/slog v0.4.0
 	github.com/kr/pretty v0.1.0 // indirect
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90 // indirect
