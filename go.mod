@@ -8,6 +8,7 @@ require (
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/gookit/goutil v0.6.15
 	github.com/gookit/slog v0.5.5
-	golang.org/x/oauth2 v0.17.0
+	golang.org/x/crypto v0.19.0 // indirect
+	golang.org/x/oauth2 v0.19.0
 	gopkg.in/yaml.v3 v3.0.1
 )
