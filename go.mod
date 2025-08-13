@@ -7,7 +7,7 @@ require (
 	github.com/google/go-github/v32 v32.1.0
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/gookit/goutil v0.7.1
-	github.com/gookit/slog v0.5.5
+	github.com/gookit/slog v0.5.8
 	golang.org/x/oauth2 v0.17.0
 	gopkg.in/yaml.v3 v3.0.1
 )
