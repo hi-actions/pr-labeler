@@ -6,7 +6,7 @@ require (
 	github.com/gobwas/glob v0.2.3
 	github.com/google/go-github/v32 v32.1.0
 	github.com/gookit/goutil v0.7.1
-	github.com/gookit/slog v0.5.8
+	github.com/gookit/slog v0.6.0
 	golang.org/x/oauth2 v0.30.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -14,8 +14,8 @@ require (
 require (
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
-	github.com/gookit/color v1.5.4 // indirect
-	github.com/gookit/gsr v0.1.0 // indirect
+	github.com/gookit/color v1.6.0 // indirect
+	github.com/gookit/gsr v0.1.1 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
